@@ -1,0 +1,23 @@
+{
+  "name": "node-mentoring",
+  "version": "0.0.1",
+  "description": "tldr",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tsibahatau/node-mentoring.git"
+  },
+  "keywords": [
+    "node",
+    "mentoring"
+  ],
+  "author": "Tsimur Sibahatau",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tsibahatau/node-mentoring/issues"
+  },
+  "homepage": "https://github.com/tsibahatau/node-mentoring#readme"
+}
