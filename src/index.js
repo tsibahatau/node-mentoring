@@ -1,8 +1,9 @@
 import config from "../config/config";
+import { User, Product } from "./models";
 
 console.log(config.name);
 
-import { User, Product } from "./models";
+
 
 new User();
 new Product();
