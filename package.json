@@ -40,6 +40,7 @@
     "prettier": "^1.6.1"
   },
   "dependencies": {
+    "chokidar": "^1.7.0",
     "csvjson": "^4.3.4"
   }
 }

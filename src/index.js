@@ -14,14 +14,5 @@ const dw = new DirWatcher();
 const importer = new Importer();
 dw.watch(baseDirectory, 1000);
 dw.on("dirwatcher:changed", filename => {
-  const fullFileName = path.join(baseDirectory, filename);
-  fs.exists(fullFileName, exists => {
-    if (exists) {
-      importer
-        .import(fullFileName)
-        .then(data => console.log(csvjson.toObject(data)));
-    } else {
-      console.log("File " + fullFileName + " was removed");
-    }
-  });
+  importer.import(filename).then(data => console.log(csvjson.toObject(data)));
 });

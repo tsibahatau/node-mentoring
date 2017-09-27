@@ -1,13 +1,15 @@
 import fs from "fs";
+import util from "util";
 import csvjson from "csvjson";
 
 export default class Importer {
-  import(path) {
-    return new Promise(function(resolve, reject) {
-      fs.readFile(path, "utf8", (err, content) => {
-        if (!err) resolve(content);
-      });
-    });
+  async import(path) {
+    const readFile = util.promisify(fs.readFile);
+    try {
+      return await readFile(path, "utf8");
+    } catch (err) {
+      console.error("error " + err);
+    }
   }
 
   importSync(path) {

@@ -1,14 +1,10 @@
 import fs from "fs";
 import EventEmitter from "events";
+import chokidar from "chokidar";
 
 export default class DirWatcher extends EventEmitter {
   watch(path, delay) {
-    const watcher = fs.watch(path, (eventType, filename) => {
-      if (eventType === "rename") {
-        setTimeout(() => {
-          this.emit("dirwatcher:changed", filename);
-        }, delay);
-      }
-    });
+    const watcher = chokidar.watch(path, { usePolling: true, interval: delay });
+    watcher.on("add", filename => this.emit("dirwatcher:changed", filename));
   }
 }
