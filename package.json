@@ -4,8 +4,9 @@
   "description": "tldr",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./dist",
+    "start": "nodemon ./src --exec babel-node",
     "build": "babel -d ./dist ./src",
+    "server": "node ./dist",
     "fmt": "prettier --write src/**/*.js",
     "precommit": "lint-staged"
   },
