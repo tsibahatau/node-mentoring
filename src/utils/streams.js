@@ -75,36 +75,43 @@ function transform() {
     .pipe(process.stdout);
 }
 
-const args = require("minimist")(process.argv.slice(2), {
-  alias: {
-    help: "h",
-    action: "a",
-    file: "f"
-  }
-});
+if (require.main === module) {
+  const cliArgs = require("minimist")(process.argv.slice(2), {
+    alias: {
+      help: "h",
+      action: "a",
+      file: "f"
+    }
+  });
+  Converter(cliArgs);
+}
 
-if (process.argv.slice(2).length === 0 || args.help) {
-  printHelpMessage();
-} else {
-  switch (args.action) {
-    case "io": {
-      inputOutput(args.file);
-      break;
-    }
-    case "transform": {
-      transform();
-      break;
-    }
-    case "transform-file": {
-      transformFile(args.file);
-      break;
-    }
-    case "bundle-css": {
-      cssBundler(args.path);
-      break;
-    }
-    default: {
-      printHelpMessage();
+function Converter(args) {
+  if (process.argv.slice(2).length === 0 || args.help) {
+    printHelpMessage();
+  } else {
+    switch (args.action) {
+      case "io": {
+        inputOutput(args.file);
+        break;
+      }
+      case "transform": {
+        transform();
+        break;
+      }
+      case "transform-file": {
+        transformFile(args.file);
+        break;
+      }
+      case "bundle-css": {
+        cssBundler(args.path);
+        break;
+      }
+      default: {
+        printHelpMessage();
+      }
     }
   }
 }
+
+module.exports = Converter;
