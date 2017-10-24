@@ -5,7 +5,7 @@ import Importer from "./importer";
 import fs from "fs";
 import path from "path";
 import csvjson from "csvjson";
-import Converter from "./utils/streams.js";
+import { printHelpMessage } from "./utils/streams.js";
 
 /*
 console.log(config.name);
@@ -20,4 +20,4 @@ dw.on("dirwatcher:changed", filename => {
 });
 */
 
-Converter({ help: true });
+printHelpMessage();

@@ -1,12 +1,11 @@
-const fs = require("fs");
-const util = require("util");
-const join = require("path").join;
+import fs from "fs";
+import { join } from "path";
 
-const stub = `div.download span.icon.type_zip{background:url(../../designs/default/images/icons/zip.gif) no-repeat}`;
+const stub = `div.download span.icon.type_zip{background:url(../../designs/default/images/icons/zip.gif) no-repeat}\n`;
 
 function printHelpMessage() {
   console.log(`
-  Please provide path to directory, number of files with files/f and number of lines per file with lines/L . 
+  Please provide path to directory, number of files with files/f and number of lines per file with lines/L .
   Default values are 10 for f and 100 000 for L and ./ for path`);
 }
 
