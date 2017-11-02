@@ -1,4 +1,10 @@
+import url from "url";
+
 export default function(req, res, next) {
-  res.write(`parsedQuery: ${JSON.stringify(req.query)}`);
-  res.end();
+  res.parsedQuery = parse(req.url);
+  next();
+}
+
+function parse(urlString) {
+  return url.parse(urlString, true).query;
 }
