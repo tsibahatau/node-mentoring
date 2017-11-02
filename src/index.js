@@ -5,7 +5,9 @@ import Importer from "./importer";
 import fs from "fs";
 import path from "path";
 import csvjson from "csvjson";
+import { printHelpMessage } from "./utils/streams.js";
 
+/*
 console.log(config.name);
 const baseDirectory = "c://data";
 new User();
@@ -16,3 +18,6 @@ dw.watch(baseDirectory, 1000);
 dw.on("dirwatcher:changed", filename => {
   importer.import(filename).then(data => console.log(csvjson.toObject(data)));
 });
+*/
+
+printHelpMessage();
