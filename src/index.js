@@ -6,7 +6,10 @@ import fs from "fs";
 import path from "path";
 import csvjson from "csvjson";
 import { printHelpMessage } from "./utils/streams.js";
-
+import createPlainTextServer from "./http-servers/plain-text-server";
+import createHtmlServer from "./http-servers/html-server";
+import createJSONServer from "./http-servers/json-server";
+import createEchoServer from "./http-servers/echo-server";
 /*
 console.log(config.name);
 const baseDirectory = "c://data";
@@ -20,4 +23,8 @@ dw.on("dirwatcher:changed", filename => {
 });
 */
 
-printHelpMessage();
+//printHelpMessage();
+createPlainTextServer();
+createHtmlServer();
+createJSONServer();
+createEchoServer();
