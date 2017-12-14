@@ -10,6 +10,7 @@ import createPlainTextServer from "./http-servers/plain-text-server";
 import createHtmlServer from "./http-servers/html-server";
 import createJSONServer from "./http-servers/json-server";
 import createEchoServer from "./http-servers/echo-server";
+import createExpressServer from "./express";
 /*
 console.log(config.name);
 const baseDirectory = "c://data";
@@ -28,3 +29,4 @@ createPlainTextServer();
 createHtmlServer();
 createJSONServer();
 createEchoServer();
+createExpressServer();

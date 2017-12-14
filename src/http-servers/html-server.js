@@ -1,12 +1,16 @@
 import http from "http";
 import fs from "fs";
+import path from "path";
+import replaceStream from "replacestream";
 
 export default function createHtmlServer() {
   http
     .createServer(function(req, res) {
-      let content = fs.readFileSync("./src/http-servers/index.html");
+      const contentStream = fs.createReadStream(
+        path.resolve(__dirname, "index.html")
+      );
       res.setHeader("Content-Type", "text/html");
-      res.write(content.toString().replace("{message}", "test"));
+      contentStream.pipe(replaceStream("{message}", "test")).pipe(res);
     })
     .listen(8082);
 }

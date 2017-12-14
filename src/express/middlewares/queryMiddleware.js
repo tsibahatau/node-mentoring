@@ -1,10 +1,6 @@
-import url from "url";
+import { URL } from "url";
 
 export default function(req, res, next) {
-  res.parsedQuery = parse(req.url);
+  res.parsedQuery = req.query;
   next();
-}
-
-function parse(urlString) {
-  return url.parse(urlString, true).query;
 }
