@@ -1,10 +1,12 @@
-// middleware for token check
 import jwt from "jsonwebtoken";
+import authConfig from "../config/authConfig";
+const env = "development";
+const config = authConfig[env];
 
 export default function checkToken(req, res, next) {
   let token = req.headers["x-access-token"];
   if (token) {
-    jwt.verify(token, "secret", function(err, decoded) {
+    jwt.verify(token, config.secret, function(err, decoded) {
       if (err) {
         res.json({ success: false, message: "Failed to authenticate token." });
       } else {
