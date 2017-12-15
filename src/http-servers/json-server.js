@@ -11,8 +11,7 @@ const product = {
 export default function createJSONServer() {
   http
     .createServer(function(req, res) {
-      res.setHeader("Content-Type", "application/json");
-      res.write(JSON.stringify(product));
+      res.json(JSON.stringify(product));
     })
     .listen(8083);
 }
