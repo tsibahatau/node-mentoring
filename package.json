@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon ./src --exec babel-node",
+    "express": "nodemon ./src/express --exec babel-node",
     "build": "babel -d ./dist ./src",
     "server": "node ./dist",
     "fmt": "prettier --write src/**/*.js",
@@ -40,9 +41,12 @@
     "prettier": "^1.6.1"
   },
   "dependencies": {
+    "body-parser": "^1.18.2",
     "chokidar": "^1.7.0",
     "csvjson": "^4.3.4",
+    "express": "^4.16.2",
     "minimist": "^1.2.0",
+    "replacestream": "^4.0.3",
     "request": "^2.83.0",
     "split2": "^2.2.0",
     "through2": "^2.0.3"
