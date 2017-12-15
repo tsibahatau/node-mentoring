@@ -31,7 +31,7 @@ const usersDAO = new UsersDAO(users);
 
 router.get("/api/products", function(req, res) {
   const products = productsDAO.getAllProducts();
-  res.send(JSON.stringify(products));
+  res.json(products);
 });
 
 router.get("/api/products/:id", function(req, res) {
@@ -39,7 +39,7 @@ router.get("/api/products/:id", function(req, res) {
   if (!product) {
     res.status(404).send("No such product");
   } else {
-    res.send(JSON.stringify(product));
+    res.json(product);
   }
 });
 
@@ -48,7 +48,7 @@ router.get("/api/products/:id/reviews", function(req, res) {
   if (!product) {
     res.status(404).send("No such product");
   } else {
-    res.send(JSON.stringify(productsDAO.getReviews(product.id)));
+    res.json(productsDAO.getReviews(product.id));
   }
 });
 
@@ -58,11 +58,11 @@ router.post("/api/products", function(req, res) {
   product.brand = req.body.brand || "Nobrand";
   product.price = req.body.price || 0;
   product.reviews = req.body.reviews || {};
-  res.send(JSON.stringify(productsDAO.createProduct(product)));
+  res.json(productsDAO.createProduct(product));
 });
 
 router.get("/api/users", function(req, res) {
-  res.send(JSON.stringify(usersDAO.getAllUsers()));
+  res.json(usersDAO.getAllUsers());
 });
 
 export default router;
