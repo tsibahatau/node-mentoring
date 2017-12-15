@@ -51,6 +51,7 @@
     "passport-local": "^1.0.0",
     "replacestream": "^4.0.3",
     "request": "^2.83.0",
+    "sequelize": "^4.28.2",
     "split2": "^2.2.0",
     "through2": "^2.0.3"
   }
