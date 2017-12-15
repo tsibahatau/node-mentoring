@@ -7,7 +7,6 @@ passport.use(
     const user = users.find(
       user => user.username === username && user.password === password
     );
-    // database dummy - find user and verify password
     if (user) {
       done(null, { user: { email: user.email, username: user.username } });
     } else {
