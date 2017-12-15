@@ -1,6 +1,10 @@
 import express from "express";
 import ProductsDAO from "../dao/productsDAO";
 import UsersDAO from "../dao/usersDAO";
+import jwt from "jsonwebtoken";
+import checkToken from "../middlewares/authMiddleware";
+import users from "../datastubs/users";
+import passport from "../strategies/localStrategy";
 const router = express.Router();
 
 const products = [
@@ -24,17 +28,15 @@ const products = [
   }
 ];
 
-const users = [{ username: "123" }, { username: "1234" }];
-
 const productsDAO = new ProductsDAO(products);
 const usersDAO = new UsersDAO(users);
 
-router.get("/api/products", function(req, res) {
+router.get("/api/products", checkToken, function(req, res) {
   const products = productsDAO.getAllProducts();
   res.send(JSON.stringify(products));
 });
 
-router.get("/api/products/:id", function(req, res) {
+router.get("/api/products/:id", checkToken, function(req, res) {
   const product = productsDAO.getProduct(req.params.id);
   if (!product) {
     res.status(404).send("No such product");
@@ -43,7 +45,7 @@ router.get("/api/products/:id", function(req, res) {
   }
 });
 
-router.get("/api/products/:id/reviews", function(req, res) {
+router.get("/api/products/:id/reviews", checkToken, function(req, res) {
   const product = productsDAO.getProduct(req.params.id);
   if (!product) {
     res.status(404).send("No such product");
@@ -52,7 +54,7 @@ router.get("/api/products/:id/reviews", function(req, res) {
   }
 });
 
-router.post("/api/products", function(req, res) {
+router.post("/api/products", checkToken, function(req, res) {
   const product = {};
   product.name = req.body.name || "Noname";
   product.brand = req.body.brand || "Nobrand";
@@ -61,7 +63,21 @@ router.post("/api/products", function(req, res) {
   res.send(JSON.stringify(productsDAO.createProduct(product)));
 });
 
-router.get("/api/users", function(req, res) {
+router.post("/auth", function(req, res) {
+  const user = users.find(
+    user =>
+      user.username === req.body.username && user.password === req.body.password
+  );
+  if (!user) {
+    res.status(404).send({ message: "Not Found" });
+  } else {
+    let payload = { user: { email: user.email, username: user.username } };
+    let token = jwt.sign(payload, "secret");
+    res.send(token);
+  }
+});
+
+router.get("/api/users", checkToken, function(req, res) {
   res.send(JSON.stringify(usersDAO.getAllUsers()));
 });
 
