@@ -13,9 +13,7 @@ const router = express.Router();
 const config = authConfig[env];
 
 router.get("/api/products", function(req, res) {
-  ProductsDAO.getAllProducts().then(products =>
-    res.send(JSON.stringify(products))
-  );
+  ProductsDAO.getAllProducts().then(products => res.json(products));
 });
 
 router.get("/api/products/:id", checkToken, function(req, res) {
@@ -23,7 +21,7 @@ router.get("/api/products/:id", checkToken, function(req, res) {
     if (!product) {
       res.status(404).send("No such product");
     } else {
-      res.send(JSON.stringify(product));
+      res.json(product);
     }
   });
 });
@@ -33,7 +31,7 @@ router.get("/api/products/:id/reviews", checkToken, function(req, res) {
     if (!reviews || reviews.length === 0) {
       res.status(404).send("No such reviews");
     } else {
-      res.send(JSON.stringify(reviews));
+      res.json(reviews);
     }
   });
 });
