@@ -12,7 +12,6 @@ const env = "development";
 const router = express.Router();
 const config = authConfig[env];
 
-
 router.get("/api/products", function(req, res) {
   ProductsDAO.getAllProducts().then(products =>
     res.send(JSON.stringify(products))
@@ -37,7 +36,7 @@ router.get("/api/products/:id/reviews", checkToken, function(req, res) {
       res.send(JSON.stringify(reviews));
     }
   });
-
+});
 
 router.post("/api/products", checkToken, function(req, res) {
   const product = {};
@@ -46,10 +45,7 @@ router.post("/api/products", checkToken, function(req, res) {
   product.price = req.body.price || 0;
   product.reviews = req.body.reviews || {};
 
-  ProductsDAO.createProduct(product).then(() =>
-   res.json(product)
-  );
-
+  ProductsDAO.createProduct(product).then(() => res.json(product));
 });
 
 router.post("/authToken", function(req, res) {
@@ -76,8 +72,8 @@ router.post(
   }
 );
 
-router.get("/api/users", checkToken, checkToken, function(req, res) {
-  UsersDAO.getAllUsers().then(users =>res.json(users));
+router.get("/api/users", checkToken, function(req, res) {
+  UsersDAO.getAllUsers().then(users => res.json(users));
 });
 
 export default router;
