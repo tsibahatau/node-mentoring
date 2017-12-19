@@ -1,0 +1,8 @@
+var path = require('path');
+
+module.exports = {
+  'config': path.resolve('./src/express', 'config/config.js'),
+  'migrations-path': path.resolve('./src/express', 'migrations'),
+  'models-path': path.resolve('./src/express', 'models'),
+  'seeders-path':path.resolve('./src/express', 'seeders')
+}

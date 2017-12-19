@@ -1,8 +1,18 @@
+import db from "../models";
+const { User } = db;
+
 export default class UsersDAO {
-  constructor(users) {
-    this.users = users;
+  static getAllUsers() {
+    return User.findAll();
   }
-  getAllUsers() {
-    return this.users || [];
+
+  static checkUserCredentials(username, password) {
+    return User.findOne({ where: { username } }).then(user => {
+      if (!user) {
+        return null;
+      } else {
+        return user.isPasswordValid(password);
+      }
+    });
   }
 }

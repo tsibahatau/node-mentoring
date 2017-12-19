@@ -4,12 +4,20 @@
   "description": "tldr",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./src --exec babel-node",
+    "start:db": "docker-compose up",
+    "start:nodemon": "nodemon ./src --exec babel-node",
+    "setup-env": "node setup-env.js",
     "express": "nodemon ./src/express --exec babel-node",
     "build": "babel -d ./dist ./src",
     "server": "node ./dist",
     "fmt": "prettier --write src/**/*.js",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "sequelize:migrate": "sequelize db:migrate",
+    "sequelize:seed:all": "sequelize db:seed:all",
+    "sequelize:seed:undo:all": "sequelize db:seed:undo:all",
+    "sequelize:migrate:undo": "sequelize db:migrate:undo",
+    "sequelize:migrate:undo:all": "sequelize db:migrate:undo:all"
+
   },
   "lint-staged": {
     "*.js": [
@@ -41,17 +49,21 @@
     "prettier": "^1.6.1"
   },
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "chokidar": "^1.7.0",
     "csvjson": "^4.3.4",
+    "dotenv": "^4.0.0",
     "express": "^4.16.2",
     "jsonwebtoken": "^8.1.0",
     "minimist": "^1.2.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
+    "pg": "^7.4.0",
     "replacestream": "^4.0.3",
     "request": "^2.83.0",
     "sequelize": "^4.28.2",
+    "sequelize-cli": "^3.2.0",
     "split2": "^2.2.0",
     "through2": "^2.0.3"
   }

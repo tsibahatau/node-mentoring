@@ -8,51 +8,30 @@ import passport from "../strategies/localStrategy";
 
 const router = express.Router();
 
-const products = [
-  {
-    id: 0,
-    name: "Supreme T-Shirt",
-    brand: "Supreme",
-    price: 99.99,
-    options: [{ color: "blue" }, { size: "XL" }],
-    reviews: [
-      { author: "test", headline: "nooo", text: "noooooooo", grade: 4 },
-      { author: "test2", headline: "nooo1", text: "noooooooo2", grade: 3 }
-    ]
-  },
-  {
-    id: 1,
-    name: "T-Shit",
-    brand: "nope",
-    price: 9,
-    options: [{ color: "red" }, { size: "L" }]
-  }
-];
-
-const productsDAO = new ProductsDAO(products);
-const usersDAO = new UsersDAO(users);
-
-router.get("/api/products", checkToken, function(req, res) {
-  const products = productsDAO.getAllProducts();
-  res.send(JSON.stringify(products));
+router.get("/api/products", function(req, res) {
+  ProductsDAO.getAllProducts().then(products =>
+    res.send(JSON.stringify(products))
+  );
 });
 
 router.get("/api/products/:id", checkToken, function(req, res) {
-  const product = productsDAO.getProduct(req.params.id);
-  if (!product) {
-    res.status(404).send("No such product");
-  } else {
-    res.send(JSON.stringify(product));
-  }
+  ProductsDAO.getProduct(req.params.id).then(product => {
+    if (!product) {
+      res.status(404).send("No such product");
+    } else {
+      res.send(JSON.stringify(product));
+    }
+  });
 });
 
 router.get("/api/products/:id/reviews", checkToken, function(req, res) {
-  const product = productsDAO.getProduct(req.params.id);
-  if (!product) {
-    res.status(404).send("No such product");
-  } else {
-    res.send(JSON.stringify(productsDAO.getReviews(product.id)));
-  }
+  ProductsDAO.getReviews(req.params.id).then(reviews => {
+    if (!reviews || reviews.length === 0) {
+      res.status(404).send("No such reviews");
+    } else {
+      res.send(JSON.stringify(reviews));
+    }
+  });
 });
 
 router.post("/api/products", checkToken, function(req, res) {
@@ -61,7 +40,9 @@ router.post("/api/products", checkToken, function(req, res) {
   product.brand = req.body.brand || "Nobrand";
   product.price = req.body.price || 0;
   product.reviews = req.body.reviews || {};
-  res.send(JSON.stringify(productsDAO.createProduct(product)));
+  ProductsDAO.createProduct(product).then(() =>
+    res.send(JSON.stringify(product))
+  );
 });
 
 router.post("/auth", function(req, res, next) {
@@ -77,8 +58,8 @@ router.post("/auth", function(req, res, next) {
   })(req, res, next);
 });
 
-router.get("/api/users", checkToken, function(req, res) {
-  res.send(JSON.stringify(usersDAO.getAllUsers()));
+router.get("/api/users", checkToken, checkToken, function(req, res) {
+  UsersDAO.getAllUsers().then(users => res.send(JSON.stringify(users)));
 });
 
 export default router;

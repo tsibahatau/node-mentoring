@@ -1,23 +1,25 @@
+import db from "../models";
+const { Product, Review } = db;
+
 export default class ProductDAO {
-  constructor(products) {
-    this.products = products;
+  static getReviews(productId) {
+    return Review.findAll({ where: { product_id: productId } });
   }
 
-  getReviews(productID) {
-    return this.products[productID]["reviews"] || [];
+  static getProduct(id) {
+    return Product.findOne({ where: { id } });
   }
 
-  getProduct(productID) {
-    return this.products[productID];
+  static getAllProducts() {
+    return Product.findAll();
   }
 
-  getAllProducts() {
-    return this.products || [];
-  }
-
-  createProduct(product) {
-    product.id = this.products.length;
-    this.products.push(product);
-    return product;
+  static createProduct(product) {
+    console.dir(product);
+    return Product.build({
+      name: product.name,
+      brand: product.brand,
+      price: product.price
+    }).save();
   }
 }
