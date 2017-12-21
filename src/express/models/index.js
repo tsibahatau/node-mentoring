@@ -15,13 +15,13 @@ fs
     return file.indexOf(".") !== 0 && file !== "index.js";
   })
   .forEach(function(file) {
-    const model = sequelize.import(path.join(__dirname, file));
-    db[model.name] = model;
+    const model = require(path.join(__dirname, file)).default;
+    db[model.name] = model.init(sequelize);
   });
 
 Object.keys(db).forEach(function(modelName) {
-  if ("associate" in db[modelName].options.classMethods) {
-    db[modelName].options.classMethods.associate(db);
+  if ("associate" in db[modelName]) {
+    db[modelName].associate(db);
   }
 });
 

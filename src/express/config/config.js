@@ -1,8 +1,10 @@
-require("dotenv").config({
-  path: require("path").join(__dirname, "../../..", ".env")
+import dotenv from "dotenv";
+import path from "path";
+dotenv.config({
+  path: path.join(__dirname, "../../..", ".env")
 });
 
-module.exports = {
+export default {
   development: {
     host: "localhost",
 
@@ -11,6 +13,8 @@ module.exports = {
     username: process.env.POSTGRES_USER,
 
     password: process.env.POSTGRES_PASSWORD,
+
+    secret: process.env.SECRET,
 
     port: "5432",
 

@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
-import authConfig from "../config/authConfig";
-const env = "development";
-const config = authConfig[env];
+import Config from "../config/config";
+const env = process.env.development || "development";
+const config = Config[env];
 
 export default function checkToken(req, res, next) {
   let token = req.headers["x-access-token"];

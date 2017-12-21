@@ -15,7 +15,6 @@ export default class ProductDAO {
   }
 
   static createProduct(product) {
-    console.dir(product);
     return Product.build({
       name: product.name,
       brand: product.brand,

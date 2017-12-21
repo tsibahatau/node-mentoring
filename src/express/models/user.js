@@ -1,34 +1,28 @@
-"use strict";
+import { Sequelize, DataTypes } from "sequelize";
 import bcrypt from "bcrypt";
 import { SALT_ROUNDS } from "../constants";
 
-module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define(
-    "User",
-    {
-      username: DataTypes.STRING,
-      password: DataTypes.STRING,
-      email: DataTypes.STRING
-    },
-    {
-      classMethods: {
-        associate: function(models) {
-          // associations can be defined here
-        }
-      }
-    }
-  );
-  User.prototype.isPasswordValid = function(passwordInput) {
-    return bcrypt.compare(passwordInput, this.password).then(result => {
-      const user = result ? this : null;
-      return user;
-    });
-  };
+export default class User extends Sequelize.Model {
+  static init(sequelize) {
+    return super.init(
+      {
+        username: DataTypes.STRING,
+        password: DataTypes.STRING,
+        email: DataTypes.STRING
+      },
+      { sequelize }
+    );
+  }
 
-  User.prototype.hashPasswordBeforeSave = function(password, options) {
+  isPasswordValid(passwordInput) {
+    return bcrypt.compare(passwordInput, this.password).then(result => {
+      return result ? this : null;
+    });
+  }
+
+  hashPasswordBeforeSave(password, options) {
     return bcrypt
       .hash(password, SALT_ROUNDS)
       .then(hash => (this.password = hash));
-  };
-  return User;
-};
+  }
+}
