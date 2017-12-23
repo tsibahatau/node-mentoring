@@ -6,11 +6,11 @@ import checkToken from "../middlewares/authMiddleware";
 import users from "../datastubs/users";
 import passport from "../strategies/localStrategy";
 import { generateToken } from "../utils/authUtils";
-import authConfig from "../config/authConfig";
+import Config from "../config/config";
 
 const env = "development";
 const router = express.Router();
-const config = authConfig[env];
+const config = Config[process.env.development || "development"];
 
 router.get("/api/products", function(req, res) {
   ProductsDAO.getAllProducts().then(products => res.json(products));
@@ -46,26 +46,28 @@ router.post("/api/products", checkToken, function(req, res) {
   ProductsDAO.createProduct(product).then(() => res.json(product));
 });
 
-router.post("/authToken", function(req, res) {
-  const user = users.find(
-    user =>
-      user.username === req.body.username && user.password === req.body.password
+router.post("/authToken", async (req, res) => {
+  const user = await UsersDAO.checkUserCredentials(
+    req.body.username,
+    req.body.password
   );
   if (user) {
-    return res.json({ token: generateToken(user, config.secret) });
+    const token = await generateToken(user, config.secret);
+    res.json({ token });
   } else {
-    return res.status(404).send({ message: "Not Found" });
+    res.status(404).send({ message: "Not Found" });
   }
 });
 
 router.post(
   "/auth",
   passport.authenticate("local", { session: false }),
-  (req, res) => {
+  async (req, res) => {
     if (req.user) {
-      res.json({ token: generateToken(req.user, config.secret) });
+      const token = await generateToken(req.user, config.secret);
+      res.json({ token });
     } else {
-      return res.status(404).send({ message: "Not Found" });
+      res.status(404).send({ message: "Not Found" });
     }
   }
 );

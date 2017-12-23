@@ -14,7 +14,7 @@ export default {
 
     password: process.env.POSTGRES_PASSWORD,
 
-    secret: process.env.SECRET,
+    secret: process.env.JWT_SECRET,
 
     port: "5432",
 

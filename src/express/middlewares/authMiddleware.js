@@ -1,12 +1,15 @@
-import jwt from "jsonwebtoken";
+import redis from "redis";
+import Jwtr from "jwt-redis";
 import Config from "../config/config";
-const env = process.env.development || "development";
-const config = Config[env];
+
+const jwtr = new Jwtr(redis.createClient());
+const config = Config[process.env.development || "development"];
 
 export default function checkToken(req, res, next) {
   let token = req.headers["x-access-token"];
   if (token) {
-    jwt.verify(token, config.secret, function(err, decoded) {
+    jwtr.verify(token, config.secret, function(err, decoded) {
+      console.log(err);
       if (err) {
         res.json({ success: false, message: "Failed to authenticate token." });
       } else {
